@@ -4,6 +4,7 @@ from types import SimpleNamespace # wanted dot operators, got this from ai.
 
 # TODO update later for full screen (x=3000, y=1500)
 screen_size = SimpleNamespace(x=900, y=450)
+speed = 5
 
 font_cache = {}
 fonts = {
@@ -39,22 +40,29 @@ def main():
         ship_surf = pygame.image.load('assets/graphics/ship.png').convert_alpha()
         ship_rect = ship_surf.get_rect(midbottom=(450, 440))
 
-        laser_blast_surface = pygame.image.load('assets/graphics/laserBlast.png').convert_alpha()
-        enemy_surface = pygame.image.load('assets/graphics/enemy_4.png').convert_alpha()
+        laser_blast_surf = pygame.image.load('assets/graphics/laserBlast.png').convert_alpha()
+        enemy_surf = pygame.image.load('assets/graphics/enemy_4.png').convert_alpha()
 
         while True:
                 for event in pygame.event.get():
                         if event.type == pygame.QUIT:
                                 pygame.quit()
                                 sys.exit()
-
+                keys = pygame.key.get_pressed()
+                if keys[pygame.K_LEFT] and not keys[pygame.K_RIGHT]:
+                        ship_rect.x -= speed
+                elif keys[pygame.K_RIGHT] and not keys[pygame.K_LEFT]:
+                        ship_rect.x += speed
+                elif keys[pygame.K_SPACE]:
+                        print('FIRED A LASER!')
+                        clock.tick(4)
                 screen.blit(sky_surf, (0, 0))
                 screen.blit(text_label(wave(), 'ss_reg', 25, "White"), (10, 10))
 
-                ship_rect.x += 4
-
-                if ship_rect.right <= 0: ship_rect.left = screen_size.x
-                if ship_rect.left >= screen_size.x: ship_rect.right = 0
+                if ship_rect.right < 5:
+                        ship_rect.left = screen_size.x - 5
+                if ship_rect.left > screen_size.x - 5:
+                        ship_rect.right = 5
 
 		# TODO
                 # if laser_blast_rect.colliderect(enemy_rect)
