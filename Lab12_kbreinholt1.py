@@ -49,9 +49,9 @@ def main():
                                 pygame.quit()
                                 sys.exit()
                 keys = pygame.key.get_pressed()
-                if keys[pygame.K_LEFT] and not keys[pygame.K_RIGHT]:
+                if (keys[pygame.K_LEFT] or keys[pygame.K_a]) and not (keys[pygame.K_RIGHT] or keys[pygame.K_d]):
                         ship_rect.x -= speed
-                elif keys[pygame.K_RIGHT] and not keys[pygame.K_LEFT]:
+                elif (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and not (keys[pygame.K_LEFT] or keys[pygame.K_a]):
                         ship_rect.x += speed
                 elif keys[pygame.K_SPACE]:
                         print('FIRED A LASER!')
