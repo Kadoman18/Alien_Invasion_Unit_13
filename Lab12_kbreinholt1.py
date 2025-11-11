@@ -85,7 +85,7 @@ def main():
         ship = pygame.sprite.GroupSingle()
         ship.add(Ship())
 
-        lasers = pygame.sprite.Group()  # Define lasers group
+        lasers = pygame.sprite.Group()
         while True:
                 for event in pygame.event.get():
                         if event.type == pygame.QUIT:
