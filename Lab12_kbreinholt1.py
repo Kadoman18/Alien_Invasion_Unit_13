@@ -1,10 +1,13 @@
 import pygame
 import sys
+import tkinter as tk
 from types import SimpleNamespace # wanted dot operators, got this from ai.
 
 
-# TODO update later for full screen (x=3000, y=1500)
-screen_size = SimpleNamespace(x=900, y=450)
+# TODO update later for full screen (x=1470, y=895)
+screen_size = SimpleNamespace(x=1470, y=895)
+speed_divisor = 130
+fire_rate = 750
 
 font_cache = {}
 fonts = {
@@ -16,9 +19,9 @@ class Ship(pygame.sprite.Sprite):
         def __init__(self):
                 super().__init__()
                 self.image = pygame.image.load('assets/graphics/ship.png').convert_alpha()
-                self.rect = self.image.get_rect(midbottom=(450, 440))
+                self.rect = self.image.get_rect(midbottom=(screen_size.x / 2, screen_size.y - 15))
                 self.fire_rate = 750
-                self.speed = 5
+                self.speed = screen_size.x / speed_divisor
 
         def ship_input(self, lasers):
                 keys = pygame.key.get_pressed()
@@ -32,15 +35,17 @@ class Ship(pygame.sprite.Sprite):
                 if not hasattr(self, 'last_shot_time'):
                         self.last_shot_time = 0
                 if keys[pygame.K_SPACE]:
+                        self.speed = screen_size.x / (screen_size.x / 5)
+                        if keys[pygame.K_LSHIFT]:
+                                self.fire_rate = fire_rate / 3
+                                self.speed = screen_size.x / (screen_size.x / 2)
                         if now - self.last_shot_time >= self.fire_rate:
                                 lasers.add(Laser(self.rect.midtop))
                                 self.last_shot_time = now
-                if keys[pygame.K_LSHIFT]:
-                        self.fire_rate = 250
-                        self.speed = 2
-                else:
-                        self.fire_rate = 750
-                        self.speed = 5
+
+        def update(self):
+                self.fire_rate = fire_rate
+                self.speed = screen_size.x / speed_divisor
 
 class Laser(pygame.sprite.Sprite):
         def __init__(self, pos):
