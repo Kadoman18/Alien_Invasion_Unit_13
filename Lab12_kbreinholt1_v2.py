@@ -12,32 +12,27 @@ fonts = {
 def get_font(font_key, size):
         if font_key not in font_cache:
                 font_cache[font_key] = {}
-
         if size not in font_cache[font_key]:
                 font_cache[font_key][size] = pygame.font.Font(fonts[font_key], size)
-
         return font_cache[font_key][size]
 
 def wave() -> str:
         wave = 1
-
         return f'Wave: {wave}'
 
 def text_label(text, font_key, size, color):
         font = get_font(font_key, size)
-
         return font.render(text, False, color)
 
 class AlienInvasion:
 
         def __init__(self):
                 pygame.init()
-                self.screen = pygame.display.set_mode((settings.Settings().screen_size))
                 self.settings = settings.Settings()
 
-                self.screen = pygame.display.set_mode((settings.Settings().screen_size))
+                self.screen = pygame.display.set_mode((self.settings.screen_size))
                 pygame.display.set_caption(self.settings.name)
-                self.sky_surf = pygame.image.load(settings.Settings().background)
+                self.sky_surf = pygame.image.load(self.settings.background)
 
                 self.running = True
                 self.clock = pygame.time.Clock()
