@@ -44,7 +44,7 @@ class Settings:
         def __init__(self):
                 """
                 Initialize settings including game name, calculated screen size,
-                and the path to the background image asset.
+                and the paths to game assets.
                 """
                 self.name: str = '👾 Alien Invasion 👾'
 
@@ -54,3 +54,4 @@ class Settings:
                 )
 
                 self.background: Path = paths.Graphics().background
+                self.icon: Path = paths.Graphics().icon

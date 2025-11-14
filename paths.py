@@ -82,6 +82,8 @@ class Graphics:
                 Ship sprite with background removed.
         background : Path
                 Primary game background image.
+        icon : Path
+                App icon image.
         """
         asteroid: Path = BASE / "graphics" / "Asteroid Brown.png"
         beams: Path = BASE / "graphics" / "beams.png"
@@ -91,3 +93,4 @@ class Graphics:
         ship2: Path = BASE / "graphics" / "ship2.png"
         ship2nobg: Path = BASE / "graphics" / "ship2(no bg).png"
         background: Path = BASE / "graphics" / "Starbasesnow.png"
+        icon: Path = BASE / "graphics" / "alien_invasion_icon.png"

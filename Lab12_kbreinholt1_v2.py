@@ -79,9 +79,12 @@ class AlienInvasion:
                 # Initialize screen using configured dimensions
                 self.screen = pygame.display.set_mode((self.settings.screen_size))
                 pygame.display.set_caption(self.settings.name)
+                icon = pygame.image.load(self.settings.icon)
+                pygame.display.set_icon(icon)
 
                 # Load background surface
-                self.sky_surf = pygame.image.load(self.settings.background)
+                self.sky_surf = pygame.transform.scale(pygame.image.load(self.settings.background).convert(), (self.settings.screen_size))
+                self.sky_rect = self.sky_surf.get_rect()
 
                 self.running = True
                 self.clock = pygame.time.Clock()
@@ -98,11 +101,9 @@ class AlienInvasion:
                                         pygame.quit()
                                         exit()
 
-                        # Draw background and update display
                         self.screen.blit(self.sky_surf, (0, 0))
                         pygame.display.flip()
 
-                        # Cap framerate
                         self.clock.tick(60)
 
 
