@@ -8,7 +8,6 @@ instance to access window dimensions, settings, and display surfaces.
 
 import pygame
 import paths
-import settings
 import hud
 from typing import TYPE_CHECKING
 
@@ -63,11 +62,13 @@ class Ship:
                 Updates the ships position.
                 """
                 if self.moving_right:
-                        self.x += self.settings.ship_speed
+                        self.rect.x += self.settings.ship_speed
+                        if self.rect.left > self.settings.screen_size[0]:
+                                self.rect.right = 0
                 if self.moving_left:
-                        self.x -= self.settings.ship_speed
-
-                self.rect.x = self.x
+                        self.rect.x -= self.settings.ship_speed
+                        if self.rect.right < 0:
+                                self.rect.left = self.settings.screen_size[0]
 
 
         def draw(self) -> None:
