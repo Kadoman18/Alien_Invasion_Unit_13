@@ -79,6 +79,8 @@ class AlienInvasion:
                         self.ship.moving_left = True
                 elif event.key == pygame.K_d:
                         self.ship.moving_right = True
+                elif event.key == pygame.K_SPACE:
+                        self.ship.firing = True
                 elif event.key == pygame.K_q:
                         self.running = False
                         pygame.quit()
@@ -90,6 +92,8 @@ class AlienInvasion:
                         self.ship.moving_left = False
                 elif event.key == pygame.K_d:
                         self.ship.moving_right = False
+                elif event.key == pygame.K_SPACE:
+                        self.ship.firing = False
 
 
         def _update_screen(self):

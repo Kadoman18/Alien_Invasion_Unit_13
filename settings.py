@@ -91,6 +91,7 @@ class Settings:
 
                 # Sets ships speed proportional to screen size, ensuring continuity across devices
                 self.ship_speed: int  = self.ScreenSize.x // 150
+                self.ship_firing_speed: int = self.ship_speed - (self.ship_speed // 3)
 
                 # Frames per second cap for the main loop
                 self.fps: int = 60

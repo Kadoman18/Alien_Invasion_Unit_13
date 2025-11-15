@@ -58,6 +58,7 @@ class Ship:
                 # Movement Bools for control using keyup/keydown based inputs
                 self.moving_right: bool = False
                 self.moving_left: bool = False
+                self.firing: bool = False
                 self.x = self.rect.x
 
 
@@ -69,15 +70,21 @@ class Ship:
                 # Padding to make the transition from side to side appear more instant
                 buffer = 15
 
+                # Firing Mechanics to slow the ship when firing
+                if self.firing:
+                        self.speed = self.settings.ship_firing_speed
+                else:
+                        self.speed = self.settings.ship_speed
+
                 # Rightward movement and wrapping
                 if self.moving_right:
-                        self.rect.x += self.settings.ship_speed
+                        self.rect.x += self.speed
                         if self.rect.left > self.settings.screen_size[0] - buffer:
                                 self.rect.right = buffer
 
                 # Leftward movement and wrapping
                 if self.moving_left:
-                        self.rect.x -= self.settings.ship_speed
+                        self.rect.x -= self.speed
                         if self.rect.right < buffer:
                                 self.rect.left = self.settings.screen_size[0] - buffer
 
