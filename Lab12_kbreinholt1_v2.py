@@ -5,8 +5,6 @@ Includes the core game window initialization.
 
 import pygame
 import settings
-import paths
-import hud
 from ship import Ship
 
 class AlienInvasion:

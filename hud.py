@@ -5,9 +5,6 @@ Includes font caching, and UI helpers.
 """
 
 import pygame
-import paths
-from pathlib import Path
-from typing import Protocol
 
 # Cache storing loaded font objects so fonts are not reloaded repeatedly
 font_cache = {}

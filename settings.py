@@ -39,37 +39,40 @@ class Settings:
                 # Initialize pygame’s display module so desktop size can be queried
                 pygame.display.init()
 
-                # Horizontal screen width (same on all platforms)
-                x: int = pygame.display.get_desktop_sizes()[0][0]
-
-                # DEBUGGING OPTION:
-                # x: int = 900
-
-                # Platform-specific vertical height adjustment
-                if platform.system() == 'Darwin':
-                        # Subtract macOS menu bar height (approx. 61 px)
-                        # This ensures the game window isn't covered by the menu bar
-                        y: int = pygame.display.get_desktop_sizes()[0][1] - 61
-
-                        # DEBUGGING OPTION:
-                        # y: int = 450
+                # Easy Toggle for testing screen sizes and their effects on gameplay
+                DEBUGGING = False
+                if DEBUGGING:
+                        x: int = 900
+                        y: int = 450
                 else:
-                        # Full height on Windows/Linux
-                        y: int = pygame.display.get_desktop_sizes()[0][1]
+                        x: int = pygame.display.get_desktop_sizes()[0][0]
+                        # Platform-specific vertical height adjustment
+                        if platform.system() == 'Darwin':
+                                # Subtract macOS menu bar height (approx. 61 px, at least on mine.. idk)
+                                # This ensures the game window isn't pushed below the bottom of the screen
+                                y: int = pygame.display.get_desktop_sizes()[0][1] - 61
+                        else:
+                                # Full height on Windows/Linux
+                                y: int = pygame.display.get_desktop_sizes()[0][1]
 
         def __init__(self):
                 """
                 Initialize global settings including:
 
-                • window title
-                • final screen size tuple used by pygame
-                • calculated ship size scaling
-                • background and icon asset paths
-                • FPS cap
+                - window title
+                - app icon
+                - final screen size tuple used by pygame
+                - calculated ship size scaling
+                - background and icon asset paths
+                - ship speed
+                - FPS cap
                 """
 
                 # Title that appears in the window bar
                 self.name: str = '👾 Alien Invasion 👾'
+
+                # Icon path for pygame window
+                self.icon: Path = paths.Graphics.icon
 
                 # Convert ScreenSize class attributes into a tuple for pygame
                 self.screen_size: tuple[int, int] = (
@@ -77,19 +80,17 @@ class Settings:
                         self.ScreenSize.y
                 )
 
-                # Background image path (Path object from paths.Graphics)
+                # Background image path
                 self.background: Path = paths.Graphics.background
 
-                # Ship sprite scaling is proportional to the screen size
+                # Ship sprite scaling is proportional to the screen size, ensuring continuity across devices
                 self.ship_size: tuple[int, int] = (
                         self.ScreenSize.x // 15,
                         self.ScreenSize.y // 10
                 )
 
+                # Sets ships speed proportional to screen size, ensuring continuity across devices
                 self.ship_speed: int  = self.ScreenSize.x // 150
-
-                # Icon path for pygame window (if used)
-                self.icon: Path = paths.Graphics.icon
 
                 # Frames per second cap for the main loop
                 self.fps: int = 60

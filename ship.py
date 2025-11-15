@@ -34,6 +34,8 @@ class Ship:
                         Reference to the main game instance, supplying
                         settings, screen surfaces, and layout dimensions.
                 """
+
+                # Basic references to AlienInvasion class and Settings class
                 self.game = game
                 self.settings = game.settings
 
@@ -53,26 +55,37 @@ class Ship:
                         - (self.screen_rect.midbottom[1] // 75)
                 )
 
+                # Movement Bools for control using keyup/keydown based inputs
                 self.moving_right: bool = False
                 self.moving_left: bool = False
                 self.x = self.rect.x
+
 
         def update(self) -> None:
                 """
                 Updates the ships position.
                 """
+
+                # Padding to make the transition from side to side appear more instant
+                buffer = 15
+
+                # Rightward movement and wrapping
                 if self.moving_right:
                         self.rect.x += self.settings.ship_speed
-                        if self.rect.left > self.settings.screen_size[0]:
-                                self.rect.right = 0
+                        if self.rect.left > self.settings.screen_size[0] - buffer:
+                                self.rect.right = buffer
+
+                # Leftward movement and wrapping
                 if self.moving_left:
                         self.rect.x -= self.settings.ship_speed
-                        if self.rect.right < 0:
-                                self.rect.left = self.settings.screen_size[0]
+                        if self.rect.right < buffer:
+                                self.rect.left = self.settings.screen_size[0] - buffer
 
 
         def draw(self) -> None:
                 """
                 Draw the ship to the screen at its current position.
                 """
+
+                # Draw the ship to the screen
                 self.screen.blit(self.surf, self.rect)
