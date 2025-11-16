@@ -108,6 +108,8 @@ class AlienInvasion:
                 # Draw player ship
                 self.ship.draw()
 
+                self.laser.draw()
+
                 # Update the display (swap buffers)
                 pygame.display.flip()
 
