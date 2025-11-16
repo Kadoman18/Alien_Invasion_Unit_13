@@ -47,6 +47,6 @@ class Laser(pygame.sprite.Sprite):
                 self.rect.y -= self.speed
 
                 # Delete the laser when it leaves the screen
-                if self.rect.y < -5:
+                if self.rect.midbottom[1] < 0:
                         self.kill()
 

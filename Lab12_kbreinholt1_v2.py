@@ -6,7 +6,7 @@ Includes the core game window initialization.
 import pygame
 from settings import Settings
 from ship import Ship
-from laser import Laser
+from arsenal import Laser
 
 
 class AlienInvasion:
