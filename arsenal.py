@@ -12,7 +12,7 @@ from typing import TYPE_CHECKING
 
 # Forward reference to avoid circular imports at runtime
 if TYPE_CHECKING:
-        from Lab12_kbreinholt1_v2 import AlienInvasion
+        from Alien_Invasion import AlienInvasion
 
 
 class Laser(pygame.sprite.Sprite):
@@ -34,7 +34,7 @@ class Laser(pygame.sprite.Sprite):
 
                 # Surf and rect for laser sprite
                 self.image: pygame.Surface = pygame.transform.scale(pygame.image.load(paths.Graphics.laser), self.settings.laser_size).convert_alpha()
-                self.rect: pygame.Rect = self.image.get_rect(midtop = (self.ship.rect.midtop))
+                self.rect: pygame.Rect = self.image.get_rect(center = (self.ship.rect.midtop))
 
                 # Set the lasers travel speed
                 self.speed: int = self.settings.laser_speed

@@ -12,7 +12,7 @@ from typing import TYPE_CHECKING
 
 # Forward reference to avoid circular imports at runtime
 if TYPE_CHECKING:
-        from Lab12_kbreinholt1_v2 import AlienInvasion
+        from Alien_Invasion import AlienInvasion
 
 
 class Aliens(pygame.sprite.Sprite):
