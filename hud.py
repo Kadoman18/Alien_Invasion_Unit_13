@@ -5,6 +5,7 @@ Includes font caching, and UI helpers.
 """
 
 import pygame
+from pathlib import Path
 
 # Cache storing loaded font objects so fonts are not reloaded repeatedly
 font_cache = {}
@@ -16,7 +17,7 @@ fonts = {
 }
 
 
-def text_label(text: str, font_key: str, size: int, color: str) -> pygame.Surface:
+def text_label(text: str, font_path: Path, size: int, color: str | tuple[int, int, int]) -> pygame.Surface:
         """
         Render a text label using a cached pygame font.
 
@@ -24,8 +25,8 @@ def text_label(text: str, font_key: str, size: int, color: str) -> pygame.Surfac
         ----------
         text : str
                 The text content to render.
-        font_key : str
-                A key referencing the font path in the `fonts` dictionary.
+        font_path : Path
+                A pathlib Path object to the font file.
         size : int
                 The pixel size of the font.
         color : str
@@ -37,13 +38,14 @@ def text_label(text: str, font_key: str, size: int, color: str) -> pygame.Surfac
                 A rendered text surface ready to blit to the screen.
         """
 
+        font_key = Path(font_path).name
         # Create font group in cache if missing
         if font_key not in font_cache:
                 font_cache[font_key] = {}
 
         # Load the font at this size if not previously loaded
         if size not in font_cache[font_key]:
-                font_cache[font_key][size] = pygame.font.Font(fonts[font_key], size)
+                font_cache[font_key][size] = pygame.font.Font(font_path, size)
 
         # Retrieve font from cache and render the text
         font = font_cache[font_key][size]

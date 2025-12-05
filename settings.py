@@ -83,6 +83,9 @@ class Settings:
                 # Background image path
                 self.background: Path = paths.Graphics.background
 
+                self.play_button_text = "Play"
+                self.play_button_font = paths.Font.bold
+
                 # Ship sprite scaling is proportional to the screen size, ensuring continuity across devices
                 self.ship_size: tuple[int, int] = (
                         self.ScreenSize.x // 15,
@@ -98,6 +101,7 @@ class Settings:
                 self.ship_base_fire_rate: int = 750
                 self.ship_rapid_fire_rate: int = 250
 
+                self.laser_graphic = paths.Graphics.laser
                 # Laser sprite scaling is proportional to the screen size, ensuring continuity across devices
                 self.laser_size: tuple[int, int] = (
                         self.ScreenSize.x // 60,

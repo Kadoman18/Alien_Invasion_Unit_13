@@ -4,10 +4,12 @@ Includes the core game window initialization.
 """
 
 import pygame
+import paths
 from settings import Settings
 from ship import Ship
 from arsenal import Laser
 from alien_horde import AlienHorde
+from button import Button
 
 
 class AlienInvasion:
@@ -30,6 +32,21 @@ class AlienInvasion:
                         )
                 )
 
+                self.play_button = Button(
+                        "Play",
+                        paths.Font.bold,
+                        self.screen_rect.center,
+                        (
+                                self.settings.screen_size[0] // 20,
+                                self.settings.screen_size[1] // 20
+                                ),
+                        "white",
+                        "green",
+                        self
+                        )
+                self.play_button.draw(self.screen, self.screen_rect.center)
+
+
                 # Customize game window title and icon
                 pygame.display.set_caption(self.settings.name)
                 pygame.display.set_icon(pygame.image.load(self.settings.icon))
@@ -48,8 +65,7 @@ class AlienInvasion:
 
                 # Create the lasers sprite group
                 self.lasers = pygame.sprite.Group()
-
-                self.laser_blast = pygame.mixer.music.load(self.settings.laser_noise)
+                self.lasers_noise = pygame.mixer.Sound(self.settings.laser_noise)
 
                 # Create the horde of aliens
                 self.horde = AlienHorde(self)
@@ -75,14 +91,12 @@ class AlienInvasion:
                 if self.ship.firing and (now - self.last_shot_time >= self.settings.ship_base_fire_rate):
                         laser = Laser(self)
                         self.lasers.add(laser)
-                        pygame.mixer.music.play()
                         self.last_shot_time = now
 
                 # Rapid fire speed (spacebar + shift)
                 elif self.ship.firing and self.ship.firing_rapid and (now - self.last_shot_time >= self.settings.ship_rapid_fire_rate):
                         laser = Laser(self)
                         self.lasers.add(laser)
-                        pygame.mixer.music.play()
                         self.last_shot_time = now
 
 

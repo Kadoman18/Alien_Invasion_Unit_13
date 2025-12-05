@@ -7,7 +7,6 @@ instance to access window dimensions, settings, and display surfaces.
 """
 
 import pygame
-import paths
 from typing import TYPE_CHECKING
 
 # Forward reference to avoid circular imports at runtime
@@ -33,11 +32,13 @@ class Laser(pygame.sprite.Sprite):
                 self.screen_rect: pygame.Rect = game.screen_rect
 
                 # Surf and rect for laser sprite
-                self.image: pygame.Surface = pygame.transform.scale(pygame.image.load(paths.Graphics.laser), self.settings.laser_size).convert_alpha()
+                self.image: pygame.Surface = pygame.transform.scale(pygame.image.load(self.settings.laser_graphic), self.settings.laser_size).convert_alpha()
                 self.rect: pygame.Rect = self.image.get_rect(center = (self.ship.rect.midtop))
 
                 # Set the lasers travel speed
                 self.speed: int = self.settings.laser_speed
+                self.laser_noise = pygame.mixer.Sound(self.settings.laser_noise)
+                self.laser_noise.play()
 
 
         def update(self) -> None:
