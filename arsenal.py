@@ -44,10 +44,11 @@ class Laser(pygame.sprite.Sprite):
         def update(self) -> None:
                 """Updates the lasers position."""
 
-                # Lasers movement
-                self.rect.y -= self.speed
+                if self.game.paused == False:
+                        # Lasers movement
+                        self.rect.y -= self.speed
 
-                # Delete the laser when it leaves the screen
-                if self.rect.midbottom[1] < 0:
-                        self.kill()
+                        # Delete the laser when it leaves the screen
+                        if self.rect.midbottom[1] < 0:
+                                self.kill()
 

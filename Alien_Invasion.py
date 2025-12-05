@@ -46,6 +46,9 @@ class AlienInvasion:
                         )
                 self.play_button.draw(self.screen, self.screen_rect.center)
 
+                self.pause_duration = 0
+                self.pause_start_time = None
+                self.last_shot_time = 0
 
                 # Customize game window title and icon
                 pygame.display.set_caption(self.settings.name)
@@ -72,6 +75,7 @@ class AlienInvasion:
 
                 # Game running boolean
                 self.running: bool = True
+                self.paused: bool = True
 
                 # Game clock
                 self.clock = pygame.time.Clock()
@@ -79,25 +83,24 @@ class AlienInvasion:
 
         def _fire_laser(self) -> None:
                 """Handles the logic for continuous laser firing and rate"""
+                if self.paused:
+                        return
 
-                # Get current time for fire rate limiting
-                now: int = pygame.time.get_ticks()
+                now = pygame.time.get_ticks()
+                relative_now = now - self.pause_duration
 
-                # Give laser the last shot time attribute
-                if not hasattr(self, "last_shot_time"):
-                        self.last_shot_time = 0
+                # Base fire
+                if self.ship.firing and (relative_now - self.last_shot_time >= self.settings.ship_base_fire_rate):
+                        self.lasers.add(Laser(self))
+                        self.last_shot_time = relative_now
 
-                # Base fire speed (spacebar)
-                if self.ship.firing and (now - self.last_shot_time >= self.settings.ship_base_fire_rate):
-                        laser = Laser(self)
-                        self.lasers.add(laser)
-                        self.last_shot_time = now
+                # Rapid fire
+                elif self.ship.firing and self.ship.firing_rapid and (
+                    relative_now - self.last_shot_time >= self.settings.ship_rapid_fire_rate
+                ):
+                        self.lasers.add(Laser(self))
+                        self.last_shot_time = relative_now
 
-                # Rapid fire speed (spacebar + shift)
-                elif self.ship.firing and self.ship.firing_rapid and (now - self.last_shot_time >= self.settings.ship_rapid_fire_rate):
-                        laser = Laser(self)
-                        self.lasers.add(laser)
-                        self.last_shot_time = now
 
 
         def _event_listener(self) -> None:
@@ -109,6 +112,10 @@ class AlienInvasion:
                                 self.running = False
                                 pygame.quit()
                                 exit()
+
+                        # Mouse Right Click event
+                        elif event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0] == True:
+                                self._toggle_pause()
 
                         # Keydown event
                         elif event.type == pygame.KEYDOWN:
@@ -150,8 +157,11 @@ class AlienInvasion:
         def _key_up_event(self, event) -> None:
                 """Listens for key up events (Key Releases)"""
 
+                if event.key == pygame.K_p:
+                        self._toggle_pause()
+
                 # Rightward movement stop
-                if event.key == pygame.K_d:
+                elif event.key == pygame.K_d:
                         self.ship.moving_right = False
                 elif event.key == pygame.K_LEFT:
                         self.ship.moving_left = False
@@ -168,6 +178,20 @@ class AlienInvasion:
                 elif event.key == pygame.K_LSHIFT:
                         self.ship.firing_rapid = False
 
+        def _toggle_pause(self) -> None:
+                """Listens for right mouse click events on the play button and the pressing of P"""
+                if not self.paused:
+                        # Going from unpaused → paused
+                        self.paused = True
+                        self.pause_start_time = pygame.time.get_ticks()
+                else:
+                        # Going from paused → unpaused
+                        self.paused = False
+                        paused_time = 0
+                        if self.pause_start_time != None:
+                                paused_time = pygame.time.get_ticks() - self.pause_start_time
+                        self.pause_duration += paused_time
+                        self.pause_start_time = None
 
         def _update_screen(self) -> None:
                 """Updates the screen with relevant movements, sprites, and UI elements"""
@@ -191,8 +215,8 @@ class AlienInvasion:
         def run_game(self) -> None:
                 """Main game loop"""
 
-                while True:
 
+                while self.running == True:
                         # Handle system and player events
                         self._event_listener()
 

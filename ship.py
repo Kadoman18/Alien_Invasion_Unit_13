@@ -58,25 +58,25 @@ class Ship(pygame.sprite.Sprite):
 
                 # Padding to make the transition from side to side quicker
                 buffer: int = 15
+                if self.game.paused == False:
+                        # Firing slows ship
+                        self.speed: int  = self.settings.ship_speed
+                        if self.firing and self.firing_rapid:
+                                self.speed: int  = self.settings.ship_rapid_firing_speed
+                        elif self.firing:
+                                self.speed: int = self.settings.ship_base_firing_speed
 
-                # Firing slows ship
-                self.speed: int  = self.settings.ship_speed
-                if self.firing and self.firing_rapid:
-                        self.speed: int  = self.settings.ship_rapid_firing_speed
-                elif self.firing:
-                        self.speed: int = self.settings.ship_base_firing_speed
+                        # Rightward movement and wrapping
+                        if self.moving_right:
+                                self.rect.x += self.speed
+                                if self.rect.left > self.settings.screen_size[0] - buffer:
+                                        self.rect.right = buffer
 
-                # Rightward movement and wrapping
-                if self.moving_right:
-                        self.rect.x += self.speed
-                        if self.rect.left > self.settings.screen_size[0] - buffer:
-                                self.rect.right = buffer
-
-                # Leftward movement and wrapping
-                if self.moving_left:
-                        self.rect.x -= self.speed
-                        if self.rect.right < buffer:
-                                self.rect.left = self.settings.screen_size[0] - buffer
+                        # Leftward movement and wrapping
+                        if self.moving_left:
+                                self.rect.x -= self.speed
+                                if self.rect.right < buffer:
+                                        self.rect.left = self.settings.screen_size[0] - buffer
 
 
         def draw(self) -> None:

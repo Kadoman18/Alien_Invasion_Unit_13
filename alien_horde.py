@@ -45,8 +45,9 @@ class AlienHorde:
                 """
                 Update positions for each alien and handle edge collision logic.
                 """
-                self._check_edges()
-                self.horde.update()
+                if self.game.paused == False:
+                        self._check_edges()
+                        self.horde.update()
 
         def _check_edges(self):
                 """
