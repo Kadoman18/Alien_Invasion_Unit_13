@@ -1,22 +1,26 @@
 """
 Module providing the main Alien Invasion game loop using pygame.
-Includes the core game window initialization.
+
+Includes the core game window initialization, event handling, and game state management.
 """
 
-import pygame
-import settings
-from ship import Ship
 from alien_horde import AlienHorde
 from button import Button
+from ship import Ship
+import pygame
+import settings
 
 
 class AlienInvasion:
         """Main game controller for the Alien Invasion application."""
 
+        # Initialize local variables
         def __init__(self) -> None:
 
-                # Initialize
+                # Initialize pygame
                 pygame.init()
+
+                # Reference settings
                 self.settings = settings.Settings()
 
                 # Set the screen mode, scaling depending on screen size
@@ -34,6 +38,7 @@ class AlienInvasion:
                 self.pause_duration = 0
                 self.pause_start_time = None
 
+                # Create the play button
                 self.play_button = Button(
                         self.settings.play_button_text,
                         self.settings.play_button_font,
@@ -44,6 +49,8 @@ class AlienInvasion:
                         "black",
                         self
                         )
+
+                # Define default play button location
                 self.play_button_location = self.play_button.rect
 
                 # Customize game window title and icon
@@ -79,18 +86,19 @@ class AlienInvasion:
                 self.clock = pygame.time.Clock()
 
 
-
         def _event_listener(self) -> None:
                 """Listens for events like quit, or keyboard input."""
 
+                # Get all events
                 for event in pygame.event.get():
+
                         # Quit game
                         if event.type == pygame.QUIT:
                                 self.running = False
                                 pygame.quit()
                                 exit()
 
-                        # Mouse Right Click event
+                        # Mouse right click event
                         elif event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0]:
                                         if self.play_button.rect.collidepoint(pygame.mouse.get_pos()):
                                                 self._toggle_pause()
@@ -157,26 +165,33 @@ class AlienInvasion:
                 elif event.key == pygame.K_LSHIFT:
                         self.ship.firing_rapid = False
 
+
         def _toggle_pause(self) -> None:
                 """
                 Handles the play button rect and the effects on the laser
                 fire cooldown of the game pausing
                 """
+
+                # Going from unpaused to paused
                 if not self.paused:
 
-                        # Going from unpaused to paused
+                        # Pause game
                         self.paused = True
 
+                        # Display the play button
                         self.play_button.rect.center = self.screen_rect.center
 
                         # Get current tick for pause start time
                         self.pause_start_time = pygame.time.get_ticks()
+
+                # Going from paused to unpaused
                 else:
 
-                        # Going from paused to unpaused
+                        # Unpause game and reset pause timer
                         self.paused = False
                         paused_time = 0
 
+                        # *Remove* the play button
                         self.play_button.rect.center = (-10000, -10000)
 
                         # Calculate pause duration
@@ -186,6 +201,7 @@ class AlienInvasion:
 
                         # Set pause timer to None
                         self.pause_start_time = None
+
 
         def _update_screen(self) -> None:
                 """Updates the screen with relevant movements, sprites, and UI elements"""
@@ -212,6 +228,7 @@ class AlienInvasion:
 
         def run_game(self) -> None:
                 """Main game loop"""
+
                 while self.running == True:
                         # Handle system and player events
                         self._event_listener()

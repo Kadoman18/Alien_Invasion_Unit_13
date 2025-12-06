@@ -2,9 +2,10 @@
 Ship entity for the Alien Invasion game.
 """
 
-import pygame
 from arsenal import Laser
 from typing import TYPE_CHECKING
+import pygame
+
 
 # Forward reference to avoid circular imports at runtime
 if TYPE_CHECKING:
@@ -14,6 +15,7 @@ if TYPE_CHECKING:
 class Ship(pygame.sprite.Sprite):
         """Represents the player's ship in the game world."""
 
+        # Initialize local variables
         def __init__(self, game: 'AlienInvasion') -> None:
 
                 # Initialize sprite class

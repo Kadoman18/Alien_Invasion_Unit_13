@@ -6,8 +6,9 @@ for the ships lasers. Integrates with the main AlienInvasion game
 instance to access window dimensions, settings, and display surfaces.
 """
 
-import pygame
 from typing import TYPE_CHECKING
+import pygame
+
 
 # Forward reference to avoid circular imports at runtime
 if TYPE_CHECKING:
@@ -17,6 +18,7 @@ if TYPE_CHECKING:
 class Laser(pygame.sprite.Sprite):
         """Houses the laser projectile surf, rect, and movement behavior."""
 
+        # Initialize local variables
         def __init__(self, game: 'AlienInvasion') -> None:
 
                 # Initialize sprite class

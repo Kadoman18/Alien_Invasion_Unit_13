@@ -4,12 +4,10 @@ Settings module defining global configuration for the Alien Invasion game.
 Provides asset paths, screen size detection (with macOS adjustments), and global settings.
 """
 
-import pygame
-import platform
-import paths
 from pathlib import Path
-from dataclasses import dataclass
-
+import paths
+import platform
+import pygame
 
 
 class Settings:
@@ -20,6 +18,7 @@ class Settings:
         and dynamic values such as sprite scaling and FPS limits.
         """
 
+        # Initialize local variables for import and global use
         def __init__(self):
                 """
                 Initializes global settings
@@ -43,6 +42,9 @@ class Settings:
 
                 # Convert ScreenSize class attributes into a tuple for pygame
                 self.screen_size: tuple[int, int] = self.ScreenSize()
+
+                # Dummy variable for wave counter (not done yet)
+                self.wave: int = 1
 
                 #------- Play Button Settings -------
                 self.play_button_text: str = "Play"
@@ -113,17 +115,17 @@ class Settings:
                 # Set horde size (columns, rows)
                 self.horde_size: tuple[int, int] = (6, 14)
 
+
         def ScreenSize(self):
                 """
                 Represents the usable screen area for the game window.
-                Notes
-                -----
+
+                Note
+
                 • pygame reports the full display size, which on macOS includes
                   the menu bar (and sometimes the dock). A constant offset is
                   subtracted to ensure the window fits entirely within visible
                   space.
-                • The values here are class attributes, meaning ScreenSize.x
-                  and ScreenSize.y can be accessed without instantiating the class.
                 """
 
                 # Initialize pygame's display module so desktop size can be queried

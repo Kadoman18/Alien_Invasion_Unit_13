@@ -1,6 +1,16 @@
-from pathlib import Path
-from dataclasses import dataclass
+"""
+Asset path definitions for the Alien Invasion game.
 
+Provides typed dataclasses exposing file paths for audio, JSON data,
+fonts, and graphics assets. All paths resolve relative to the project's
+./assets directory at runtime.
+"""
+
+from dataclasses import dataclass
+from pathlib import Path
+
+
+# Initialize the root directory
 ROOT = Path.cwd() / 'assets'
 
 

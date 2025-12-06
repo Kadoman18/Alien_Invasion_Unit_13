@@ -4,8 +4,13 @@ Module providing UI/HUD rendering utilities.
 Includes font caching, and UI helpers.
 """
 
-import pygame
 from pathlib import Path
+import pygame
+from settings import Settings
+
+
+# Reference to settings
+settings = Settings()
 
 # Cache storing loaded font objects so fonts are not reloaded repeatedly
 font_cache = {}
@@ -37,8 +42,9 @@ def text_label(text: str, font_path: Path, size: int, color: str | tuple[int, in
         pygame.Surface
                 A rendered text surface ready to blit to the screen.
         """
-
+        # Extract the fonts name
         font_key = Path(font_path).name
+
         # Create font group in cache if missing
         if font_key not in font_cache:
                 font_cache[font_key] = {}
@@ -52,20 +58,11 @@ def text_label(text: str, font_path: Path, size: int, color: str | tuple[int, in
         return font.render(text, False, color)
 
 
-def wave() -> str:
+# TODO
+def wave() -> None:
         """
         Handles the wave increments and label.
-
-        Returns
-        -------
-        str
-                A wave label in the format 'Wave: *n*'.
-
-        Notes
-        -----
-        Currently always returns 1 because the wave system
-        has not been implemented yet.
         """
 
-        wave = 1
-        return f'Wave: {wave}'
+        # Increment the wave
+        settings.wave += 1

@@ -6,8 +6,9 @@ for the alien ship. Integrates with the main AlienInvasion game
 instance to access window dimensions, settings, and display surfaces.
 """
 
-import pygame
 from typing import TYPE_CHECKING
+import pygame
+
 
 # Forward reference to avoid circular imports at runtime
 if TYPE_CHECKING:
@@ -17,6 +18,7 @@ if TYPE_CHECKING:
 class Aliens(pygame.sprite.Sprite):
         """Houses the alien surf, rect, and movement behavior."""
 
+        # Initialize local variables
         def __init__(self, game: 'AlienInvasion', x: int, y: int) -> None:
 
                 # Initialize sprite class
@@ -35,12 +37,20 @@ class Aliens(pygame.sprite.Sprite):
                 self.image: pygame.Surface = pygame.transform.scale(pygame.image.load(self.settings.alien_image), self.settings.alien_size).convert_alpha()
                 self.rect: pygame.Rect = self.image.get_rect(center = (x, y))
 
+
         def check_edges(self):
                 """
                 Return True if alien touches either edge of the screen.
                 """
+
+                # Get screen Rect
                 screen_rect: pygame.Rect = self.game.screen.get_rect()
+
+                # True if
                 return self.rect.right >= screen_rect.right or self.rect.left <= 0 or self.rect.bottom >= self.screen_rect.bottom
+
+
+
         def update(self):
                 """
                 Move alien horizontally using global horde direction.
