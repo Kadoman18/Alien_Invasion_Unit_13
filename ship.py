@@ -4,7 +4,6 @@ Ship entity for the Alien Invasion game.
 
 import pygame
 from arsenal import Laser
-import settings
 from typing import TYPE_CHECKING
 
 # Forward reference to avoid circular imports at runtime
