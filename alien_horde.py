@@ -63,6 +63,8 @@ class AlienHorde:
                         True,
                         True
                         )
+                if laser_collisions:
+                        pygame.mixer.Sound(self.settings.impact_noise).play(0, 300, 0)
                 ship_collisions = pygame.sprite.groupcollide(
                         self.group,
                         self.game.ship_group,
@@ -70,9 +72,12 @@ class AlienHorde:
                         True
                 )
                 if ship_collisions:
+                        if self.settings.DEBUGGING:
+                                self.game.running = True
+                        else:
+                                self.game.running = False
+                if len(self.group.sprites()) <= 0:
                         self.game.running = False
-                if laser_collisions:
-                        pygame.mixer.Sound(self.settings.impact_noise).play(0, 300, 0)
 
         def _advance_and_reverse(self):
                 """

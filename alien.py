@@ -40,11 +40,15 @@ class Aliens(pygame.sprite.Sprite):
                 Return True if alien touches either edge of the screen.
                 """
                 screen_rect: pygame.Rect = self.game.screen.get_rect()
-                return self.rect.right >= screen_rect.right or self.rect.left <= 0
+                return self.rect.right >= screen_rect.right or self.rect.left <= 0 or self.rect.bottom >= self.screen_rect.bottom
         def update(self):
                 """
                 Move alien horizontally using global horde direction.
                 """
                 self.rect.x += (self.settings.horde_speed *
                         self.settings.horde_direction)
+
+                # Delete the alien when it leaves the screen
+                if self.rect.midtop[1] > self.screen_rect.midbottom[1]:
+                        self.kill()
 

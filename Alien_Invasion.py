@@ -25,8 +25,8 @@ class AlienInvasion:
                 # Define the screen rect for sprite placements
                 self.screen_rect: pygame.Rect = self.screen.get_rect(
                         midbottom=(
-                                self.settings.ScreenSize.x // 2,
-                                self.settings.ScreenSize.y
+                                self.settings.screen_size[0] // 2,
+                                self.settings.screen_size[1]
                         )
                 )
 
