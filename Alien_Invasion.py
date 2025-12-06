@@ -157,7 +157,10 @@ class AlienInvasion:
                         self.ship.firing_rapid = False
 
         def _toggle_pause(self) -> None:
-                """Handles effects on the laser fire cooldown of the game pausing"""
+                """
+                Handles the play button rect and the effects on the laser
+                fire cooldown of the game pausing
+                """
                 if not self.paused:
 
                         # Going from unpaused to paused

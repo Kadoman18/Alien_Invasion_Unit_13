@@ -29,9 +29,9 @@ class Ship(pygame.sprite.Sprite):
                 self.screen_rect: pygame.Rect = game.screen_rect
 
                 # Load ship image and create surface
-                self.image: pygame.Surface = pygame.image.load(settings.Graphics.ship).convert_alpha()
+                self.image: pygame.Surface = pygame.image.load(self.settings.ship_image).convert_alpha()
                 self.image: pygame.Surface = pygame.transform.scale(
-                        pygame.image.load(settings.Graphics.ship),
+                        pygame.image.load(self.settings.ship_image),
                         self.settings.ship_size
                 ).convert_alpha()
 
@@ -83,7 +83,6 @@ class Ship(pygame.sprite.Sprite):
                 self._fire_laser()
 
                 # Padding to make the transition from side to side quicker
-                buffer: int = 15
                 if not self.game.paused:
                         # Firing slows ship
                         self.speed: int  = self.settings.ship_speed
@@ -95,11 +94,11 @@ class Ship(pygame.sprite.Sprite):
                         # Rightward movement and wrapping
                         if self.moving_right:
                                 self.rect.x += self.speed
-                                if self.rect.left > self.settings.screen_size[0] - buffer:
-                                        self.rect.right = buffer
+                                if self.rect.left > self.settings.screen_size[0] - self.settings.ship_wrap_buffer:
+                                        self.rect.right = self.settings.ship_wrap_buffer
 
                         # Leftward movement and wrapping
                         if self.moving_left:
                                 self.rect.x -= self.speed
-                                if self.rect.right < buffer:
-                                        self.rect.left = self.settings.screen_size[0] - buffer
+                                if self.rect.right < self.settings.ship_wrap_buffer:
+                                        self.rect.left = self.settings.screen_size[0] - self.settings.ship_wrap_buffer

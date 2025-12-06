@@ -50,7 +50,8 @@ class AlienHorde:
 
         def _check_collisions(self):
                 """
-                Handles collision detection for the edge of the screen,the player ship rect, and the laser rects.
+                Handles collision detection for the edge of the screen,the player ship rect,
+                and the laser rects.
                 """
                 for alien in self.horde.sprites():
                         if alien.check_edges():

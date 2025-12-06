@@ -5,89 +5,10 @@ Provides asset paths, screen size detection (with macOS adjustments), and global
 """
 
 import pygame
+import platform
+import paths
 from pathlib import Path
 from dataclasses import dataclass
-import platform
-
-
-ROOT = Path.cwd() / 'assets'
-
-
-@dataclass
-class Audio:
-        """
-        File paths for all audio resources used by the game.
-
-        Attributes
-        ----------
-        impact : Path
-                Path to the player impact sound effect.
-        laser : Path
-                Path to the laser firing sound effect.
-        """
-        impact: Path = ROOT / "audio" / "impact.mp3"
-        laser: Path = ROOT / "audio" / "laser.mp3"
-
-
-@dataclass
-class File:
-        """
-        File paths for data and JSON-based persistent storage.
-
-        Attributes
-        ----------
-        scores : Path
-                Path to the JSON file storing player score data.
-        """
-        scores: Path = ROOT / "file" / "scores.json"
-
-
-@dataclass
-class Font:
-        """
-        File paths for all font resources used in rendering UI text.
-
-        Attributes
-        ----------
-        bold : Path
-                Path to the bold silkscreen font.
-        regular : Path
-                Path to the regular silkscreen font.
-        """
-        bold: Path = ROOT / "fonts" / "silkscreen" / "silkscreen_bold.ttf"
-        regular: Path = ROOT / "fonts" / "silkscreen" / "silkscreen_regular.ttf"
-
-
-@dataclass
-class Graphics:
-        """
-        File paths for all graphical assets, including sprites, UI elements,
-        and backgrounds.
-
-        Attributes
-        ----------
-        asteroid : Path
-                Asteroid sprite asset.
-        beams : Path
-                Beam graphics asset.
-        alien : Path
-                Alien ship sprite.
-        laser : Path
-                Laser blast sprite.
-        ship : Path
-                Primary player ship sprite.
-        background : Path
-                Primary game background image.
-        icon : Path
-                App icon image.
-        """
-        asteroid: Path = ROOT / "graphics" / "asteroid.png"
-        beams: Path = ROOT / "graphics" / "beams.png"
-        alien: Path = ROOT / "graphics" / "alien.png"
-        laser: Path = ROOT / "graphics" / "laser.png"
-        ship: Path = ROOT / "graphics" / "ship.png"
-        background: Path = ROOT / "graphics" / "background.png"
-        icon: Path = ROOT / "graphics" / "icon.png"
 
 
 class Settings:
@@ -95,7 +16,7 @@ class Settings:
         Container for game-wide configuration values.
 
         Includes window title, computed screen size, asset paths,
-        and dynamic values such as ship scaling and FPS limits.
+        and dynamic values such as sprite scaling and FPS limits.
         """
 
         @dataclass
@@ -143,10 +64,10 @@ class Settings:
                 self.name: str = '👾 Alien Invasion 👾'
 
                 # Icon path for pygame window
-                self.icon: Path = Graphics.icon
+                self.icon: Path = paths.Graphics.icon
 
                 # Background image path
-                self.background: Path = Graphics.background
+                self.background: Path = paths.Graphics.background
 
                 # Frames per second cap for the main loop
                 self.fps: int = 60
@@ -159,9 +80,11 @@ class Settings:
 
                 #------- Play Button Settings -------
                 self.play_button_text: str = "Play"
-                self.play_button_font: Path = Font.bold
+                self.play_button_font: Path = paths.Font.bold
 
                 #------- Ship settings -------
+                # Paths
+                self.ship_image: Path = paths.Graphics.ship
                 # Scale proportional to the screen size
                 self.ship_size: tuple[int, int] = (
                         self.ScreenSize.x // 15,
@@ -170,6 +93,7 @@ class Settings:
 
                 # Set ships speed proportional to screen size
                 self.ship_speed: int = self.ScreenSize.x // 150
+                self.ship_wrap_buffer: int = 25
 
                 # Ships speed modifiers depending on firing mode
                 self.ship_base_firing_speed: int = self.ship_speed - (self.ship_speed // 3)
@@ -181,8 +105,8 @@ class Settings:
 
                 #------- Laser Settings -------
                 # Paths
-                self.laser_graphic = Graphics.laser
-                self.laser_noise: Path = Audio.laser
+                self.laser_graphic = paths.Graphics.laser
+                self.laser_noise: Path = paths.Audio.laser
 
                 # Scale proportional to the screen size
                 self.laser_size: tuple[int, int] = (
@@ -195,7 +119,7 @@ class Settings:
 
                 #------- Alien Ship settings -------
                 # Paths
-                self.alien_image: Path = Graphics.alien
+                self.alien_image: Path = paths.Graphics.alien
 
                 # Scale proportional to the screen size
                 self.alien_size: tuple[int, int] = (
