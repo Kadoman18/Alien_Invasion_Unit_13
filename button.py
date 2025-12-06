@@ -35,6 +35,7 @@ class Button:
                         text_color: str | tuple[int, int, int],
                         fill_color: str | tuple[int, int, int],
                         border_color: str | tuple[int, int, int],
+                        pause_only: bool,
                         game: 'AlienInvasion'
                         ) -> None:
 

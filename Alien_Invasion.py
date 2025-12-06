@@ -47,6 +47,7 @@ class AlienInvasion:
                         "white",
                         "green",
                         "black",
+                        True,
                         self
                         )
 

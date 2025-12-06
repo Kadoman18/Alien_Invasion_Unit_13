@@ -43,6 +43,14 @@ class Settings:
                 # Convert ScreenSize class attributes into a tuple for pygame
                 self.screen_size: tuple[int, int] = self.ScreenSize()
 
+                # Cache storing loaded font objects
+                self.font_cache: dict = {}
+
+                # Mapping of font keys to their font file paths
+                self.fonts: dict = {
+                        'ss_reg': 'assets/fonts/silkscreen/silkscreen_regular.ttf',
+                        'ss_bold': 'assets/fonts/silkscreen/silkscreen_bold.ttf'
+}
                 # Dummy variable for wave counter (not done yet)
                 self.wave: int = 1
 

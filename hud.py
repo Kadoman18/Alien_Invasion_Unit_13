@@ -12,15 +12,6 @@ from settings import Settings
 # Reference to settings
 settings = Settings()
 
-# Cache storing loaded font objects so fonts are not reloaded repeatedly
-font_cache = {}
-
-# Mapping of font keys to their font file paths
-fonts = {
-        'ss_reg': 'assets/fonts/silkscreen/silkscreen_regular.ttf',
-        'ss_bold': 'assets/fonts/silkscreen/silkscreen_bold.ttf'
-}
-
 
 def text_label(text: str, font_path: Path, size: int, color: str | tuple[int, int, int]) -> pygame.Surface:
         """
@@ -46,15 +37,15 @@ def text_label(text: str, font_path: Path, size: int, color: str | tuple[int, in
         font_key = Path(font_path).name
 
         # Create font group in cache if missing
-        if font_key not in font_cache:
-                font_cache[font_key] = {}
+        if font_key not in settings.font_cache:
+                settings.font_cache[font_key] = {}
 
         # Load the font at this size if not previously loaded
-        if size not in font_cache[font_key]:
-                font_cache[font_key][size] = pygame.font.Font(font_path, size)
+        if size not in settings.font_cache[font_key]:
+                settings.font_cache[font_key][size] = pygame.font.Font(font_path, size)
 
         # Retrieve font from cache and render the text
-        font = font_cache[font_key][size]
+        font = settings.font_cache[font_key][size]
         return font.render(text, False, color)
 
 
