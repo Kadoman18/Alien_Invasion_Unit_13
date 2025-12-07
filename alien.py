@@ -60,5 +60,6 @@ class Aliens(pygame.sprite.Sprite):
 
                 # Delete the alien when it leaves the screen
                 if self.rect.midtop[1] > self.screen_rect.midbottom[1]:
+                        self.game.you_lose = True
                         self.kill()
 

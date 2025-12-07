@@ -57,6 +57,7 @@ class Settings:
                 #------- Button Settings -------
                 self.play_button_text: str = "Play"
                 self.play_button_font: Path = paths.Font.bold
+                self.play_button_font_size: int = self.screen_size[0] // 35
                 self.play_button_loc: tuple[int, int] = (
                         (self.screen_size[0] - (self.screen_size[0] // 2)),
                         (self.screen_size[1] - (self.screen_size[1] // 2))
@@ -64,9 +65,10 @@ class Settings:
 
                 self.pause_button_text: str = " || "
                 self.pause_button_font: Path = paths.Font.bold
+                self.pause_button_font_size: int = self.screen_size[0] // 45
                 self.pause_button_loc: tuple[int, int] = (
                         self.screen_size[0] - (self.screen_size[0] // 25),
-                        int(self.screen_size[1] * 0.90)
+                        int(self.screen_size[1] * 0.06)
                         )
 
                 #------- Ship settings -------
@@ -116,11 +118,21 @@ class Settings:
                 )
 
                 #------- Horde Settings -------
-                # Set horde speed proportional to screen size
-                if self.DEBUGGING == True:
+                # Debugging option
+                if self.DEBUGGING:
+
+                        # Set horde speed proportional to screen size
                         self.horde_speed: int = self.screen_size[0] // 121
+
+                        # Set horde size (columns, rows)
+                        self.horde_size: tuple[int, int] = (1, 1)
                 else:
+
+                        # Set horde speed proportional to screen size
                         self.horde_speed: int = self.screen_size[0] // 365
+
+                        # Set horde size (columns, rows)
+                        self.horde_size: tuple[int, int] = (6, 14)
 
                 # Set horde advance to alien height
                 self.horde_advance: int = self.alien_size[1]
@@ -130,9 +142,6 @@ class Settings:
 
                 # Set horde padding proportional to screen size
                 self.horde_padding: int = self.screen_size[0] // 147
-
-                # Set horde size (columns, rows)
-                self.horde_size: tuple[int, int] = (6, 14)
 
 
         def ScreenSize(self):

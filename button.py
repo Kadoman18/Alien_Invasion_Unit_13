@@ -66,7 +66,8 @@ class Button:
                 self.button.fill(fill_color, self.fill_rect)
 
                 # Create rect positioned at given location
-                self.rect: pygame.Rect = self.button.get_rect(center=center)
+                self.default_center = center
+                self.rect: pygame.Rect = self.button.get_rect(center=self.default_center)
 
 
         def text_label(self, text: str, font_path: Path, size: int, color: str | tuple[int, int, int]) -> pygame.Surface:
@@ -106,30 +107,20 @@ class Button:
 
 
         def draw(self, surface, paused) -> None:
-                """
-                Renders the button and its label onto the given surface.
+                visible = (self.pause_only and paused) or (not self.pause_only and not paused)
 
-                This method blits the button image onto the provided surface at its
-                predefined rect position, then centers and blits the label text on top
-                of the button.
+                if visible:
+                        # Restore original location
+                        if self.rect.center != self.default_center:
+                                self.rect.center = self.default_center
 
-                Args:
-                        surface: The pygame Surface object to draw the button onto.
-
-                Returns:
-                        None
-                """
-                if (self.pause_only and paused) or (not self.pause_only and not paused):
-
-                        # Draw button at its rect
+                        # Draw button
                         surface.blit(self.button, self.rect)
 
-                        # Center the label inside the button
                         label_rect = self.label.get_rect(center=self.button.get_rect().center)
-
-                        # Blit label inside the button
                         self.button.blit(self.label, label_rect)
-                else:
 
-                        # Effectively remove the button rect
+                else:
+                        # Move off-screen, but ONLY while hidden
                         self.rect.center = (-1000, -1000)
+

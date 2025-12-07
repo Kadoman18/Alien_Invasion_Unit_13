@@ -96,8 +96,13 @@ class AlienHorde:
 
                 # End the game if all of the aliens die
                 if len(self.group.sprites()) <= 0:
-                        pygame.time.delay(1200)
-                        self._create_horde()
+                        if not self.game.you_lose:
+                                pygame.time.delay(1200)
+                                self._create_horde()
+                        else:
+                                pygame.time.delay(1200)
+                                self.game.running = False
+
 
 
         def _advance_and_reverse(self):

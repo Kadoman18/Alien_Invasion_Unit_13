@@ -91,8 +91,7 @@ class AlienInvasion:
 
                         # Mouse right click event
                         elif event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0]:
-                                        if (self.hud.play_button.rect.collidepoint(pygame.mouse.get_pos())
-                                             or self.hud.pause_button.rect.collidepoint(pygame.mouse.get_pos())):
+                                        if self.hud.play_button.rect.collidepoint(pygame.mouse.get_pos()):
                                                 self._toggle_pause()
 
                         # Keydown event
