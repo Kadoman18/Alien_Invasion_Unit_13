@@ -1,7 +1,7 @@
 """
 Module providing UI/HUD rendering utilities.
 
-Includes font caching, and UI helpers.
+Includes button management, font caching, and UI helpers for the Alien Invasion game.
 """
 from pathlib import Path
 import pygame
