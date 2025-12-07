@@ -57,9 +57,17 @@ class Settings:
                 #------- Button Settings -------
                 self.play_button_text: str = "Play"
                 self.play_button_font: Path = paths.Font.bold
+                self.play_button_loc: tuple[int, int] = (
+                        (self.screen_size[0] - (self.screen_size[0] // 2)),
+                        (self.screen_size[1] - (self.screen_size[1] // 2))
+                        )
 
                 self.pause_button_text: str = " || "
                 self.pause_button_font: Path = paths.Font.bold
+                self.pause_button_loc: tuple[int, int] = (
+                        self.screen_size[0] - (self.screen_size[0] // 25),
+                        int(self.screen_size[1] * 0.90)
+                        )
 
                 #------- Ship settings -------
                 # Paths

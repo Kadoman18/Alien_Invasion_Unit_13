@@ -25,8 +25,7 @@ class HUD:
                 self.play_button = Button(
                         self.settings.play_button_text,
                         self.settings.play_button_font,
-                        ((self.settings.screen_size[0] - (self.settings.screen_size[0] // 2)),
-                         (self.settings.screen_size[1] - (self.settings.screen_size[1] // 2))),
+                        self.settings.play_button_loc,
                         self.settings.screen_size[0] // 35,
                         "white",
                         "green",
@@ -39,8 +38,7 @@ class HUD:
                 self.pause_button = Button(
                         self.settings.pause_button_text,
                         self.settings.pause_button_font,
-                        ((self.settings.screen_size[0] - (self.settings.screen_size[0] // 25)),
-                         (self.settings.screen_size[1] - (self.settings.screen_size[1] // 20))),
+                        self.settings.pause_button_loc,
                         self.settings.screen_size[0] // 35,
                         "white",
                         "green",

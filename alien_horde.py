@@ -78,7 +78,7 @@ class AlienHorde:
 
                 # Play destruct sound effect (it seemed long so I shortened it)
                 if laser_collisions:
-                        pygame.mixer.Sound(self.settings.impact_noise).play(0, 300, 0)
+                        pygame.mixer.Sound(self.settings.impact_noise).play(0, 325, 0)
                 ship_collisions = pygame.sprite.groupcollide(
                         self.group,
                         self.game.ship_group,
@@ -97,7 +97,7 @@ class AlienHorde:
                 # End the game if all of the aliens die
                 if len(self.group.sprites()) <= 0:
                         pygame.time.delay(1200)
-                        self.game.running = False
+                        self._create_horde()
 
 
         def _advance_and_reverse(self):
