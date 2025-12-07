@@ -53,8 +53,11 @@ class Aliens(pygame.sprite.Sprite):
 
         def update(self):
                 """
-                Move alien horizontally using global horde direction.
+                Move alien horizontally using global horde direction and delete if it
+                leaves the screen.
                 """
+
+                # Move the alien
                 self.rect.x += (self.settings.horde_speed *
                         self.settings.horde_direction)
 

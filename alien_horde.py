@@ -30,6 +30,10 @@ class AlienHorde:
 
                 # Create the horde
                 self._create_horde()
+                # State used when the horde is advancing downward after hitting an edge
+                self.advancing: bool = False
+                # Remaining pixels to move down during an advance
+                self._advance_remaining: int = 0
 
 
         def _create_horde(self):
@@ -62,11 +66,17 @@ class AlienHorde:
                 and the laser rects.
                 """
 
-                # Advance when the horde hits the edges of the screen
-                for alien in self.group.sprites():
-                        if alien.check_edges():
-                                self._advance_and_reverse()
-                                break
+                # Start advancing when the horde hits the edges of the screen.
+                # We don't immediately reverse here; instead we set an advancing
+                # state so the horde moves down over time at the configured
+                # horde/alien speed, then reverse when the advance completes.
+                if not self.advancing:
+                        for alien in self.group.sprites():
+                                if alien.check_edges():
+                                        # Begin an advance equal to one alien height
+                                        self.advancing = True
+                                        self._advance_remaining = self.settings.horde_advance
+                                        break
 
                 # Delete self and laser when alien in horde is shot
                 laser_collisions = pygame.sprite.groupcollide(
@@ -86,7 +96,7 @@ class AlienHorde:
                         True
                 )
 
-                # End the game if the player encounters the aliens (if not debugging)
+                # End the game if the player is killed by the aliens
                 if ship_collisions:
                         if self.settings.DEBUGGING:
                                 self.game.running = True
@@ -94,11 +104,15 @@ class AlienHorde:
                                 pygame.time.delay(1200)
                                 self.game.running = False
 
-                # End the game if all of the aliens die
+                # All aliens are dead, what now?
                 if len(self.group.sprites()) <= 0:
+
+                        # Aliens defeated, new wave
                         if not self.game.you_lose:
                                 pygame.time.delay(1200)
                                 self._create_horde()
+
+                        # Aliens win, game over
                         else:
                                 pygame.time.delay(1200)
                                 self.game.running = False
@@ -110,12 +124,10 @@ class AlienHorde:
                 Move the horde downward by one alien height and reverse horizontal
                 direction.
                 """
-
-                # Advance the alien horde
+                # (Kept for compatibility) instant advance + reverse. The
+                # preferred path is the timed advance performed in `update`.
                 for alien in self.group.sprites():
                         alien.rect.y += self.settings.horde_advance
-
-                # Reverse the travel direction of the horde
                 self.settings.horde_direction *= -1
 
 
@@ -126,5 +138,29 @@ class AlienHorde:
 
                 # Only update if the game is not paused
                 if not self.game.paused:
+                        # First, detect collisions / triggers that start an advance
                         self._check_collisions()
-                        self.group.update()
+
+                        # If we're currently advancing, move the horde downward
+                        # over multiple frames at the configured speed until the
+                        # full advance distance has been covered, then reverse.
+                        if self.advancing:
+                                # How much to move this frame
+                                step = min(self._advance_remaining, abs(self.settings.horde_speed))
+                                if step > 0:
+                                        for alien in self.group.sprites():
+                                                alien.rect.y += step
+                                        self._advance_remaining -= step
+
+                                # If done advancing, reverse direction and clear state
+                                if self._advance_remaining <= 0:
+                                        self.advancing = False
+                                        self._advance_remaining = 0
+                                        self.settings.horde_direction *= -1
+
+                        # Normal horizontal movement: only update horizontally when
+                        # we're not in the middle of a downward advance. This
+                        # prevents the horde from continuing to move sideways
+                        # while descending (which caused a zig-zag).
+                        if not self.advancing:
+                                self.group.update()

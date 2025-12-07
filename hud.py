@@ -16,6 +16,7 @@ if TYPE_CHECKING:
 class HUD:
         def __init__(self, game: 'AlienInvasion') -> None:
 
+                # Import game reference and settings
                 self.game = game
                 self.settings = game.settings
 
@@ -27,7 +28,7 @@ class HUD:
                         self.settings.play_button_font_size,
                         "white",
                         "green",
-                        "black",
+                        "gray",
                         True,
                         game
                         )
@@ -40,7 +41,7 @@ class HUD:
                         self.settings.pause_button_font_size,
                         "white",
                         "green",
-                        "black",
+                        "gray",
                         False,
                         game
                         )
