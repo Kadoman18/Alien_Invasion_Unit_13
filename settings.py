@@ -54,9 +54,12 @@ class Settings:
                 # Dummy variable for wave counter (not done yet)
                 self.wave: int = 1
 
-                #------- Play Button Settings -------
+                #------- Button Settings -------
                 self.play_button_text: str = "Play"
                 self.play_button_font: Path = paths.Font.bold
+
+                self.pause_button_text: str = " || "
+                self.pause_button_font: Path = paths.Font.bold
 
                 #------- Ship settings -------
                 # Paths

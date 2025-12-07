@@ -34,10 +34,22 @@ class HUD:
                         True,
                         game
                         )
-                
-                # Define default play button location
-                self.play_button_location = self.play_button.rect
 
+                # Create the pause button
+                self.pause_button = Button(
+                        self.settings.pause_button_text,
+                        self.settings.pause_button_font,
+                        ((self.settings.screen_size[0] - (self.settings.screen_size[0] // 25)),
+                         (self.settings.screen_size[1] - (self.settings.screen_size[1] // 20))),
+                        self.settings.screen_size[0] // 35,
+                        "white",
+                        "green",
+                        "black",
+                        False,
+                        game
+                        )
+
+                self.buttons = [self.play_button, self.pause_button]
 
         # TODO
         def wave(self) -> None:

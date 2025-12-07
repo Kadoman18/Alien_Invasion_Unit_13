@@ -5,6 +5,7 @@ Includes the core game window initialization, event handling, and game state man
 """
 
 from alien_horde import AlienHorde
+from button import Button
 from hud import HUD
 from ship import Ship
 import pygame
@@ -23,10 +24,11 @@ class AlienInvasion:
                 # Reference settings
                 self.settings = settings.Settings()
 
+                # Reference HUD
+                self.hud = HUD(self)
+
                 # Set the screen mode, scaling depending on screen size
                 self.screen = pygame.display.set_mode((self.settings.screen_size))
-
-                self.hud = HUD(self)
 
                 # Define the screen rect for sprite placements
                 self.screen_rect: pygame.Rect = self.screen.get_rect(
@@ -178,9 +180,6 @@ class AlienInvasion:
                         self.paused = False
                         paused_time = 0
 
-                        # *Remove* the play button
-                        self.hud.play_button.rect.center = (-10000, -10000)
-
                         # Calculate pause duration
                         if self.pause_start_time != None:
                                 paused_time = pygame.time.get_ticks() - self.pause_start_time
@@ -188,7 +187,6 @@ class AlienInvasion:
 
                         # Set pause timer to None
                         self.pause_start_time = None
-
 
         def _update_screen(self) -> None:
                 """Updates the screen with relevant movements, sprites, and UI elements"""
@@ -205,8 +203,9 @@ class AlienInvasion:
                 # Draw alien horde
                 self.horde.group.draw(self.screen)
 
-                # Draw play button when paused
-                self.hud.play_button.draw(self.screen, self.paused)
+                # Draw gui buttons
+                for button in self.hud.buttons:
+                        button.draw(self.screen, self.paused)
 
                 # Update the display (swap buffers)
                 pygame.display.flip()

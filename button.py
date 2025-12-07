@@ -119,7 +119,8 @@ class Button:
                 Returns:
                         None
                 """
-                if self.pause_only and paused:
+                if (self.pause_only and paused) or (not self.pause_only and not paused):
+
                         # Draw button at its rect
                         surface.blit(self.button, self.rect)
 
@@ -128,13 +129,7 @@ class Button:
 
                         # Blit label inside the button
                         self.button.blit(self.label, label_rect)
+                else:
 
-                if not self.pause_only and not paused:
-                        # Draw button at its rect
-                        surface.blit(self.button, self.rect)
-
-                        # Center the label inside the button
-                        label_rect = self.label.get_rect(center=self.button.get_rect().center)
-
-                        # Blit label inside the button
-                        self.button.blit(self.label, label_rect)
+                        # Effectively remove the button rect
+                        self.rect.center = (-1000, -1000)
